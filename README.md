@@ -424,8 +424,6 @@ Smart contracts are also being used to create decentralized insurance products o
 
 ## 🛠 Conclusion
 
-Hardhat is a development environment for Ethereum and other blockchain platforms that provides a suite of tools for building and deploying smart contracts. Hardhat can be used to compile, test, and deploy contracts, as well as run simulations of the blockchain. It also includes support for Celo, making it a valuable tool for developers working on the Celo platform.
-
 With this new found knowledge, we are now capable of deploying any Dapp of our choosing to Celo using the same process. Do not be deterred by any obstacles, as Celo provides excellent opportunities for new projects. So go ahead and try cloning any Ethereum project and deploy it on Celo!
 
 You now have a fair understanding of getting started in Blockchain Development With Celo. In this article you have learned:
