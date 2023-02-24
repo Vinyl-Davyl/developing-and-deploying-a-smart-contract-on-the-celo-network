@@ -10,7 +10,7 @@
 * [What is a Smart Contract](#what-is-a-smart-contract)
 * [The Role of Smart Contracts in DeFi on Celo](#the-role-of-smart-contracts-in-defi-on-celo)
 * [Developing and Deploying a Smart Contract on Celo](#developing-and-deploying-a-smart-contract-on-celo)
-  * [Deploying your Smart Contract on Celo](#deploying-your-smart-contract-on-celo)
+  * [Modifying the truffle config file for deploy](#modifying-the-truffle-config-file-for-deploy)
 * [Celo Developer Tools](#celo-developer-tools)
   * [Celo Wallet](#celo-wallet)
   * [Celo CLI](#celo-cli)
@@ -64,7 +64,7 @@ Smart contracts on Celo are written in Solidity, a programming language that is 
 
 ## 🛠 Developing and Deploying a Smart Contract on Celo
 
-Celo is a blockchain platform that is designed to make financial tools accessible to everyone, regardless of their location or access to traditional financial services. One of the key features of Celo is its support for smart contracts, which are self-executing contracts with the terms of the agreement between buyer and seller being directly written into lines of code. In this article, we will explore the process of developing and deploying a smart contract on Celo, and provide a code sample to illustrate the process.
+Smart contracts are self-executing programs that run on a blockchain network. They are used to automate the execution of agreements and transactions in a transparent and secure way. Celo is a blockchain platform that allows developers to deploy and execute smart contracts. In this blog post, we will discuss how to develop and deploy a smart contract on Celo using Solidity code samples.
 
 **Step 1: Set up your development environment**<br>
 To develop and deploy a smart contract on Celo, you will need to have a development environment set up. This will typically involve installing the necessary tools and dependencies, such as Node.js and the Celo CLI. You will also need to set up an account on the Celo network and obtain some testnet CELO and cUSD tokens for testing purposes.
@@ -97,273 +97,196 @@ Initially, we must identify a means to engage with the Celo blockchain. In the c
 
 CeloCLI offers a straightforward approach for interacting with the Celo blockchain and proves to be a valuable asset for all Celo developers. Additional details about CeloCLI can be obtained ([here](https://docs.celo.org/developer#quickstart)).
 
-Once installed, it is essential to confirm that CeloCLI is directed towards the appropriate endpoint. To verify this, we will undertake the following steps:
+
+**Step 3: Developing your Smart Contract**<br>
+
+Solidity is a programming language used to develop smart contracts on the Ethereum network. Celo is compatible with Ethereum, which means you can use Solidity to develop smart contracts on Celo as well. Here is an example of a simple Solidity smart contract:
 
 ```js
 
- celocli config:get
+pragma solidity ^0.8.0;
 
-```
+contract SimpleStorage {
+    uint256 storedData;
 
-![](./assets/config1.jpeg)
-
-Our node should be pointing to node: https://alfajores-forno.celo-testnet.org
-
-In case your endpoint is something else, you can change it by using
-
-```js
-
-  celocli config:set --node https://alfajores-forno.celo-testnet.org
-
-```
-
-At present, our CeloCLI is linked to a Testnet, but in order to proceed, we require an account to work with. Fortunately, we can utilize CeloCLI to create a new account on the testnet by executing the following command:
-
-```js
-
-   celocli account:new
-
-```
-
-Then our terminal should look something like this. (Definetly! Everyone will have different values though!)
-
-![](./assets/config2.jpeg)
-
-To ensure the confidentiality of our private key, developers commonly utilize `.env` files to configure environment variables, which are hidden during the uploading of our project to an open source platform by adding them to the `.gitignore` file. In the same directory, create a `.env` file and enter the following line:
-
-`PRIVATE_KEY=<YOUR_PRIVATE_KEY>`
-
-We will use this private key later in this tutorial. Now that we have an account, we need to obtain funds for signing transactions on the blockchain. To do so, we will use the Alfajores testnet faucet, which can be accessed here. To verify that we have received funds, use the following command:
-
-`celocli account:balance <YOUR_PUBLIC_ADDRESS>`
-
-![](./assets/config3.jpeg)
-
-
-**Step 3: Write your smart contract**<br>
-Once your development environment is set up, you can start writing your smart contract code. The code sample below shows a simple smart contract that allows users to store and retrieve a string value on the Celo blockchain:
-
-```js
-
-const Web3 = require('web3');
-
-const myContractAbi = <ABI>; // Replace with your own ABI
-const myContractAddress = '<ContractAddress>'; // Replace with your own contract address
-const myCeloAddress = '<YourCeloAddress>'; // Replace with your own Celo address
-const myCeloPrivateKey = '<YourCeloPrivateKey>'; // Replace with your own Celo private key
-
-const web3 = new Web3('<CeloNodeUrl>'); // Replace with your own Celo node URL
-const myContract = new web3.eth.Contract(myContractAbi, myContractAddress);
-
-async function setString(_myString) {
-  const setStringFunction = myContract.methods.setString(_myString);
-  const gas = await setStringFunction.estimateGas({ from: myCeloAddress });
-  const tx = {
-    from: myCeloAddress,
-    to: myContractAddress,
-    gas,
-    data: setStringFunction.encodeABI(),
-  };
-  const signedTx = await web3.eth.accounts.signTransaction(tx, myCeloPrivateKey);
-  const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-  return receipt.transactionHash;
-}
-
-async function getString() {
-  return myContract.methods.getString().call();
-}
-
-
-```
-
-Yeah, Crazy Right? Give it a chill. Now lets explain the code above.
-
-This code is written in JavaScript and uses the Web3.js library to interact with a smart contract on the Celo network. Here is a breakdown of what the code does:
-
-- The first line imports the Web3.js library, which is a JavaScript library used for interacting with the Celo  network.
-
-
-```js
-
-   const Web3 = require('web3');
-
-```
-
-- The next four lines declare some variables that will be used later in the code. `myContractAbi` is the ABI (Application Binary Interface) of the smart contract, which defines its functions and how to interact with them. `myContractAddress` is the address of the smart contract on the Celo network. `myCeloAddress` is the address of the account that will be used to interact with the smart contract, and `myCeloPrivateKey` is the private key of that account, which is used to sign transactions.
-
-```js
-
-   const myContractAbi = <ABI>; // Replace with your own ABI
-   const myContractAddress = '<ContractAddress>'; // Replace with your own contract address
-   const myCeloAddress = '<YourCeloAddress>'; // Replace with your own Celo address
-   const myCeloPrivateKey = '<YourCeloPrivateKey>'; // Replace with your own Celo private key
-
-```
-
-- The next line creates a new instance of the Web3 object, which is used to interact with the Celo network. `<CeloNodeUrl>` should be replaced with the URL of a Celo node, which is used to communicate with the Celo network.
-
-```js
-
-  const web3 = new Web3('<CeloNodeUrl>'); // Replace with your own Celo node URL
-
-```
-
-- The next line creates a new instance of the smart contract by passing in its ABI and address. This allows you to interact with the smart contract's functions using the `myContract` object.
-
-```js
-
-  const myContract = new web3.eth.Contract(myContractAbi, myContractAddress);
-
-```
-
-- The `setString` function allows you to call the `setString` function on the smart contract. It takes a string parameter, `_myString`, and returns a transaction hash.
-
-```js
-
-  vbnetCopy codeasync function setString(_myString) {
-  const setStringFunction = myContract.methods.setString(_myString);
-  const gas = await setStringFunction.estimateGas({ from: myCeloAddress });
-  const tx = {
-    from: myCeloAddress,
-    to: myContractAddress,
-    gas,
-    data: setStringFunction.encodeABI(),
-  };
-  const signedTx = await web3.eth.accounts.signTransaction(tx, myCeloPrivateKey);
-  const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-  return receipt.transactionHash;
-}
-
-
-```
-
-The function first creates a new instance of the `setString` function by calling `myContract.methods.setString(_myString)`. Then it estimates the gas required for the transaction and creates a transaction object that includes the `from` address, `to` address, gas amount, and encoded data. It then signs and sends the transaction, and returns the transaction hash.
-
-- The `getString` function allows you to call the `getString` function on the smart contract. It does not take any parameters and returns the value of the `myString` variable stored on the smart contract.
-
-```js
-
-    javascriptCopy codeasync function getString() {
-    return myContract.methods.getString().call();
+    function set(uint256 x) public {
+        storedData = x;
     }
 
-```
-
-The function first creates a new instance of the `getString` function by calling `myContract.methods.getString()`. It then calls the `call()` function to execute the function on the smart contract and return the value of the `myString` variable.
-
-**Step 4: Compile and deploy your smart contract**<br>
-Once you have written your smart contract code, you will need to compile it using the Celo CLI. The following command can be used to compile the contract:
-
-```js
-
-    celoc compile MyContract.sol
-
-```
-
-This will generate a bytecode file and an ABI file for your contract. The bytecode is the machine code that will be executed on the Celo blockchain, while the ABI is the interface that other contracts and applications can use to interact with your contract.
-
-Next, you will need to deploy your contract to the Celo network. This can be done using the following command:
-
-```js
-
-    celoc deploy MyContract --args "arg1,arg2"
-
-```
-
-In this command, `arg1` and `arg2` are any constructor arguments that your contract requires. Once the contract is deployed, you will receive a contract address that you can use to interact with your contract.
-
-**Step 5: Interact with your smart contract**<br>
-Now that your contract is deployed, you can interact with it using the Celo CLI or a web3 provider. For example, you can use the following command to call the `setString` function and set the value of `myString`:
-
-```js
-
-    celoc contract:call <contract-address> setString --args "Hello, World!"
-
-```
-
-You can then use the following command to call the `getString` function and retrieve the current value of `myString`:
-
-```js
-
-    celoc contract:call <contract-address> getString
-
-```
-
-This will return the string "Hello, World!".
-
-<br><br>
-
-- ## Deploying your Smart Contract on Celo
-
-In order to deploy our dapp to the Celo blockchain, we simply need to modify the `truffle-config.js` file to be compatible with the Celo blockchain. To accomplish this, we will utilize the Contract Kit and Wallet-local tools provided by Celo. Additionally, we must install `dotenv` to enable the use of our Private Key.Changing Truffle-config
-
-To install all of these, use
-
-```js
-
-    npm i --save @celo/contractkit @celo/wallet-local dotenv
-
-```
-
-`ContractKit` is a library designed to assist developers and validators in interacting with the Celo blockchain, making it an ideal tool for developers seeking a straightforward means of integrating Celo Smart Contracts into their applications. Wallet-Local, on the other hand, provides a local wallet instance for use with ContractKit. To import the Private Key we added to the `.env` file into `truffle-config` without hardcoding it, we will use the `dotenv` file.
-
-Insert the code below into our `truffle-config.js` file.
-
-```js
-
-    require("dotenv").config();  // to import all the environment-specific variables into this file
-    const ContractKit = require("@celo/contractkit");
-    const { LocalWallet } = require("@celo/wallet-local");
-
-    const PRIVATE_KEY = process.env.PRIVATE_KEY;
-    const testnetURL = "https://alfajores-forno.celo-testnet.org";
-    const localWallet = new LocalWallet();
-    /*
-    Contractkit is used to access web3 object to interact with node's Json RPC API.
-    It takes two arguments, first being testnet url and second a wallet instance for signing transactions.
-    */
-
-    const kit = ContractKit.newKit(testnetURL, localWallet);
-
-    async function setConfig() {
-    kit.addAccount(PRIVATE_KEY);
-    kit.defaultAccount = localWallet.getAccounts()[0];
+    function get() public view returns (uint256) {
+        return storedData;
     }
-    setConfig();
-    module.exports = {
-    networks: {
-        testnet: {
-        provider: kit.connection.web3.currentProvider, // to connect with Alfajores testnet
-        network_id: 44787,
-        },
-    },
-    };
-
+}
 
 ```
 
-Now our configuration file is all set to work with the Celo Blockchain.
-
-Let's compile our smart contracts using
+Yeah, Give it a chill. Lets me explain each line of code above, It's okay to skip this part is you fully understand what's going on.
 
 ```js
 
-    Truffle compile
+pragma solidity ^0.8.0;
 
 ```
 
-and after compiling is completed, let's migrate our smart contracts to Celo.
+This line specifies the version of the Solidity compiler that should be used to compile the smart contract. In this case, it is specifying version 0.8.0 or higher.
 
 ```js
 
-    Truffle migrate --network testnet
+contract SimpleStorage {
 
 ```
 
-Congratulations on successfully deploying our Ethereum Dapp to Celo! 🎊 While it may have been a lengthy article, we made it through the first half.
+This line begins the definition of a new smart contract named "SimpleStorage". The contract is defined using the `contract` keyword, followed by the contract name.
 
+```js
+
+uint256 storedData;
+
+```
+
+This line declares a state variable called `storedData`, which is of type `uint256`. This variable will hold the value that is stored by the smart contract.
+
+```js
+
+function set(uint256 x) public {
+    storedData = x;
+}
+
+```
+
+This is a function called `set` that takes a parameter of type `uint256` called `x`. This function sets the value of `storedData` to the value of `x`. The `public` keyword makes the function accessible to anyone on the blockchain.
+
+```js
+
+function get() public view returns (uint256) {
+    return storedData;
+}
+
+```
+
+This is a function called `get` that returns the value of `storedData`. The `public` and `view` keywords indicate that this function can be called by anyone and that it does not modify the state of the contract. The returns keyword specifies the type of the `return` value, which in this case is `uint256`.
+
+
+
+This smart contract is a simple storage contract that allows you to set and get a value. The `set` function sets the value of `storedData`, while the `get` function returns the value of `storedData`.
+
+
+**Step 4: Deploying your Smart Contract on Celo**<br>
+To deploy a smart contract on Celo, you need to follow these steps:
+
+- Make sure your Celo CLI is installed: Celo CLI is a command-line interface that allows you to interact with the Celo blockchain. You can install it using NPM by running the following command like we did on setup
+
+- Create a Celo account: You need to create a Celo account to deploy a smart contract on Celo. You can create a Celo account using the `celocli account:create` command.
+
+```js
+
+celocli account:create
+
+```
+
+- Fund your Celo account: To deploy a smart contract on Celo, you need to have Celo tokens in your account. You can use the `celocli account:balance` command to check your account balance. If your balance is low, you can use the Celo faucet to get some free Celo tokens.
+
+- Compile your smart contract: You need to compile your Solidity smart contract before you can deploy it on Celo. You can use the `solc` compiler to compile your contract code.
+
+```js
+
+solc SimpleStorage.sol --bin --abi --optimize -o build/
+
+```
+
+- Deploy your smart contract: Once you have compiled your smart contract, you can use the `celocli contract:deploy` command to deploy it on Celo.
+
+```js
+
+celocli contract:deploy --contract-name SimpleStorage --from <YOUR_ACCOUNT_ADDRESS> --args "arg1,arg2" --gas 2000000
+
+```
+
+In this command, `SimpleStorage` is the name of your Solidity smart contract, and `<YOUR_ACCOUNT_ADDRESS>` is your Celo account address. You also need to provide any arguments required by your contract using the `--args` flag.
+
+**Testing Your Smart Contract:**<br>
+
+Once you have deployed your smart contract on Celo, you can test it using the celocli `contract:call command`. This command allows you to call functions in your smart contract and get the results.
+
+```js
+
+celocli contract:call --to <CONTRACT_ADDRESS> --data <FUNCTION_CALL_DATA>
+
+```
+
+In this command, `<CONTRACT_ADDRESS>` is the address of your deployed smart contract, and `<FUNCTION_CALL_DATA>` is the data required to call a specific function in your contract.
+
+That's a break! Developing and deploying smart contracts on Celo is a straightforward process. By following the steps outlined in this blog post, you can develop and deploy your own smart contracts on Celo.
 <br><br>
 
+- ## Modifying the truffle config file for deploy
+
+Note, If you don't modify the truffle-config.js file to be compatible with the Celo blockchain, you may encounter errors or issues when trying to deploy your smart contract. So it is important to make these modifications before deploying your smart contract to the Celo blockchain.
+
+To modify the truffle-config.js file to be compatible with the Celo blockchain, you can follow these steps:
+
+**Install the Celo provider for Truffle:**<br>
+
+```js
+
+npm install @celo/ethers-wrapper @celo/truffle-provider
+
+```
+
+Open the `truffle-config.js` file in your project directory.
+Add the following code to the top of the file to import the Celo provider and ethers library:
+
+```js
+
+const CeloProvider = require('@celo/truffle-provider');
+const { ethers } = require('@celo/ethers-wrapper');
+
+```
+
+Find the `networks` object in the `truffle-config.js` file. This object contains the configuration settings for each network that you want to deploy your smart contract on.
+
+Add a new network object for Celo, as shown below:
+
+```js
+
+celo: {
+  provider: () => new CeloProvider(),
+  network_id: 42220,
+  gas: 5000000,
+  gasPrice: 1000000000, // 1 gwei (in wei)
+  timeoutBlocks: 200,
+  skipDryRun: true,
+}
+
+```
+
+**Here, we're specifying the following options:**<br>
+
+- `provider`: This is a function that returns an instance of the Celo provider for Truffle.
+
+- `network_id`: This is the ID of the Celo network that you want to deploy your smart contract on. For the Alfajores testnet, the network ID is 42220.
+
+- `gas`: This is the maximum amount of gas that can be used to execute the smart contract functions.
+
+- `gasPrice`: This is the price of gas in wei that you're willing to pay for each unit of gas. In this case, we're setting it to 1 gwei.
+
+- `timeoutBlocks`: This is the number of blocks to wait before a transaction is considered to have failed due to timeout.
+
+- `skipDryRun`: This skips the dry run process before deploying your smart contract to the network.
+
+Save the `truffle-config.js` file.
+
+That's it! You have now modified the `truffle-config.js` file to be compatible with the Celo blockchain. You can now use Truffle commands to deploy your smart contract to the Celo network. For example, to deploy your smart contract to the Celo network, you can use the following command:
+
+```js
+
+truffle migrate --network celo
+
+```
+
+Congratulations on successfully deploying our Dapp project to Celo! 🎊 While it may have been a lengthy article, we made it through the first half.
+
+<br><br>
 ## 🛠 Celo Developer Tools
 
 Celo is a blockchain platform designed to make decentralized finance more accessible to anyone with a mobile phone. It provides an infrastructure for creating and using financial applications, and has gained traction in recent years due to its fast, low-cost transactions and focus on mobile accessibility. To facilitate development on the Celo platform, a number of developer tools have been created that help developers build, test, and deploy smart contracts and other applications.
