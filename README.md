@@ -125,7 +125,7 @@ contract SimpleStorage {
 
 ```
 
-Yeah, Give it a chill. Lets me explain each line of code above, It's okay to skip this part is you fully understand what's going on.
+<!-- Yeah, Give it a chill. Lets me explain each line of code above, It's okay to skip this part is you fully understand what's going on.
 
 ```js
 
@@ -169,7 +169,7 @@ function get() public view returns (uint256) {
 
 ```
 
-This is a function called `get` that returns the value of `storedData`. The `public` and `view` keywords indicate that this function can be called by anyone and that it does not modify the state of the contract. The returns keyword specifies the type of the `return` value, which in this case is `uint256`.
+This is a function called `get` that returns the value of `storedData`. The `public` and `view` keywords indicate that this function can be called by anyone and that it does not modify the state of the contract. The returns keyword specifies the type of the `return` value, which in this case is `uint256`. -->
 
 
 
