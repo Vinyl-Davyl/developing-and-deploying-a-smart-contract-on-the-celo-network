@@ -12,18 +12,24 @@
 * [Developing and Deploying a Smart Contract on Celo](#developing-and-deploying-a-smart-contract-on-celo)
   * [Modifying the truffle config file for deploy](#modifying-the-truffle-config-file-for-deploy)
 * [Celo Developer Tools](#celo-developer-tools)
+* [🛠 Introduction](#-introduction)
+* [🛠 What is a Smart Contract](#-what-is-a-smart-contract)
+* [🛠 The Role of Smart Contracts in DeFi on Celo](#-the-role-of-smart-contracts-in-defi-on-celo)
+* [🛠 Developing and Deploying a Smart Contract on Celo](#-developing-and-deploying-a-smart-contract-on-celo)
+  * [Deploying your Smart Contract on Celo](#deploying-your-smart-contract-on-celo)
+* [🛠 Celo Developer Tools](#-celo-developer-tools)
   * [Celo Wallet](#celo-wallet)
   * [Celo CLI](#celo-cli)
   * [Remix](#remix)
   * [Truffle](#truffle)
   * [Hardhat](#hardhat)
-* [Use Cases for Smart Contracts in DeFi on Celo](#use-cases-for-smart-contracts-in-defi-on-celo)
+* [🛠 Use Cases for Smart Contracts in DeFi on Celo](#-use-cases-for-smart-contracts-in-defi-on-celo)
   * [Decentralized exchanges DEXs](#decentralized-exchanges-dexs)
   * [Stablecoins](#stablecoins)
   * [Yield farming](#yield-farming)
   * [Lending and borrowing](#lending-and-borrowing)
   * [Insurance](#insurance)
-* [Conclusion](#conclusion)
+* [🛠 Conclusion](#-conclusion)
 
 ---
 
@@ -346,8 +352,6 @@ Smart contracts are also being used to create decentralized insurance products o
 <br><br>
 
 ## 🛠 Conclusion
-
-Hardhat is a development environment for Ethereum and other blockchain platforms that provides a suite of tools for building and deploying smart contracts. Hardhat can be used to compile, test, and deploy contracts, as well as run simulations of the blockchain. It also includes support for Celo, making it a valuable tool for developers working on the Celo platform.
 
 With this new found knowledge, we are now capable of deploying any Dapp of our choosing to Celo using the same process. Do not be deterred by any obstacles, as Celo provides excellent opportunities for new projects. So go ahead and try cloning any Ethereum project and deploy it on Celo!
 
