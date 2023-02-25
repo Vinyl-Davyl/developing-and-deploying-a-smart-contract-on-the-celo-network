@@ -47,6 +47,7 @@ What you would learn:
 - What is a Smart Contract?
 - The Role of Smart Contracts in DeFi on Celo
 - Developing and Deploying a Smart Contract on Celo
+- Modifying the truffle config file for deploy
 - Celo Developer Tools
 - Use Cases for Smart Contracts in DeFi on Celo
 
@@ -172,7 +173,6 @@ function get() public view returns (uint256) {
 This is a function called `get` that returns the value of `storedData`. The `public` and `view` keywords indicate that this function can be called by anyone and that it does not modify the state of the contract. The returns keyword specifies the type of the `return` value, which in this case is `uint256`. -->
 
 
-
 This smart contract is a simple storage contract that allows you to set and get a value. The `set` function sets the value of `storedData`, while the `get` function returns the value of `storedData`.
 
 
@@ -292,6 +292,7 @@ truffle migrate --network celo
 Congratulations on successfully deploying our Dapp project to Celo! 🎊 While it may have been a lengthy article, we made it through the first half.
 
 <br><br>
+
 ## 🛠 Celo Developer Tools
 
 Celo is a blockchain platform designed to make decentralized finance more accessible to anyone with a mobile phone. It provides an infrastructure for creating and using financial applications, and has gained traction in recent years due to its fast, low-cost transactions and focus on mobile accessibility. To facilitate development on the Celo platform, a number of developer tools have been created that help developers build, test, and deploy smart contracts and other applications.
